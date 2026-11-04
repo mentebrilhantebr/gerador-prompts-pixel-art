@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gerador de Prompt para Pixel Art Grátis | Como Criar Assets 2D com Inteligência Artificial</title>
+<meta name="description" content="Gerador de prompt para pixel art grátis: aprenda como criar assets 2D com inteligência artificial. Monte prompts para spritesheets, tilesets e ícones no Midjourney v6, DALL·E e Stable Diffusion.">
+<meta name="keywords" content="gerador de prompt para pixel art grátis, como criar assets 2D com inteligência artificial, prompts para jogos 2D, ferramenta gratuita para devs, midjourney v6 pixel art, spritesheet, tileset">
+<meta name="robots" content="index, follow, max-snippet:-1">
+<meta name="author" content="Gerador de Prompts Pixel Art">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Gerador de Prompt para Pixel Art Grátis">
+<meta property="og:description" content="Crie prompts otimizados para pixel art e assets de jogos 2D com IA. 100% gratuito.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0e0f14">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "name": "Gerador de Prompts para Pixel Art e Jogos 2D", "applicationCategory": "DesignApplication", "applicationSubCategory": "Game Development Tool", "operatingSystem": "Web", "inLanguage": "pt-BR", "description": "Ferramenta online gratuita para criar prompts de pixel art e assets de jogos 2D para IAs de imagem.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "BRL"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "O que é este gerador de prompt para pixel art?", "acceptedAnswer": {"@type": "Answer", "text": "É uma ferramenta web gratuita que monta prompts em inglês otimizados para IAs de imagem, voltados a pixel art e assets de jogos 2D."}}, {"@type": "Question", "name": "Como usar os prompts gerados em IAs de imagem?", "acceptedAnswer": {"@type": "Answer", "text": "Copie o prompt e cole no Midjourney, DALL·E, Leonardo ou Stable Diffusion. Gere variações e ajuste as opções até chegar ao resultado desejado."}}, {"@type": "Question", "name": "Quais são os melhores parâmetros para gerar pixel art no Midjourney v6?", "acceptedAnswer": {"@type": "Answer", "text": "Use --v 6, --style raw para reduzir o embelezamento, --ar adequado ao asset (1:1 para ícones, 16:9 para backgrounds) e termos como 'pixel art, crisp pixels, no anti-aliasing, limited palette'."}}, {"@type": "Question", "name": "Como estruturar prompts para tilesets e spritesheets 2D?", "acceptedAnswer": {"@type": "Answer", "text": "Siga a ordem: estilo, tipo de asset, vista, paleta, fundo e restrições técnicas. Para spritesheets peça 'sprite sheet, grid, consistent character, idle and walk cycle'; para tilesets peça 'seamless, modular tiles'."}}, {"@type": "Question", "name": "Como manter a consistência de cores em jogos indie?", "acceptedAnswer": {"@type": "Answer", "text": "Defina uma paleta fixa de 16 a 32 cores, repita o mesmo trecho de paleta em todos os prompts, reutilize a mesma seed e padronize as cores em um editor como Aseprite ou Lospec antes de importar na engine."}}]}]}</script>
+<style>
+:root{--bg:#0e0f14;--card:#171923;--card2:#1e2130;--line:#2a2e42;--txt:#e6e8f2;--mut:#8b90a8;--pri:#8b5cf6;--sec:#38bdf8}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(900px 500px at 10% -10%,#2a1b5530,transparent),radial-gradient(800px 500px at 100% 0,#0b4a6b30,transparent),var(--bg);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55}
+.wrap{max-width:900px;margin:0 auto;padding:24px 16px 48px}
+header{text-align:center;margin-bottom:24px}
+h1{font-size:clamp(1.5rem,4vw,2.2rem);margin:0 0 8px;background:linear-gradient(90deg,var(--pri),var(--sec));-webkit-background-clip:text;background-clip:text;color:transparent}
+header p{color:var(--mut);margin:0}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+fieldset{border:0;margin:0;padding:0}
+legend{font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--sec);margin-bottom:8px;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--card2);color:var(--txt);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:.9rem;cursor:pointer;transition:.15s;font-family:inherit}
+.chip:hover{border-color:var(--pri)}
+.chip:focus-visible,.btn:focus-visible{outline:2px solid var(--sec);outline-offset:2px}
+.chip[aria-pressed=true]{background:var(--pri);border-color:var(--pri);box-shadow:0 0 12px #8b5cf688;color:#fff}
+.out{margin-top:16px;border-color:#8b5cf666;box-shadow:0 0 24px #8b5cf622}
+textarea{width:100%;min-height:130px;resize:vertical;background:#0b0c11;color:#d7f5ff;border:1px solid var(--line);border-radius:10px;padding:12px;font:.95rem/1.5 ui-monospace,Consolas,monospace}
+.btn{background:linear-gradient(90deg,var(--pri),var(--sec));color:#fff;border:0;border-radius:10px;padding:14px 20px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:inherit}
+.btn.big{width:100%;margin-top:12px}
+.btn:hover{filter:brightness(1.1)}
+.btn.ok{background:#22c55e}
+.btn.sm{padding:9px 14px;font-size:.9rem}
+.support{margin-top:24px;text-align:center}
+.support h2{margin:0 0 6px;font-size:1.2rem}
+.support p{color:var(--mut);margin:0 0 14px}
+.pix{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap}
+.keybox{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center}
+.key{background:#0b0c11;border:1px dashed var(--line);border-radius:8px;padding:9px 12px;font-family:ui-monospace,Consolas,monospace;word-break:break-all}
+.qr{width:140px;height:140px;border-radius:10px;background:#fff;display:grid;place-items:center;color:#555;font-size:.75rem;padding:6px;overflow:hidden}
+.qr img{width:100%;height:100%;object-fit:contain}
+.faq{margin-top:24px}
+.faq h2{font-size:1.1rem}
+.faq h3{font-size:1rem;color:var(--sec);margin:14px 0 4px}
+.faq p{color:var(--mut);margin:0}
+footer{text-align:center;color:var(--mut);font-size:.8rem;margin-top:24px}
+.qr{width:190px;height:190px;border-radius:12px;background:#fff;padding:8px}
+.qr svg{width:100%;height:100%;display:block}
+.pixcol{display:flex;flex-direction:column;align-items:center;gap:12px;max-width:520px;margin:0 auto}
+.pixmsg{color:var(--mut);font-size:.9rem;margin:0}
+details{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:0 14px;margin-top:10px}
+summary{cursor:pointer;padding:13px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--sec);font-size:1.2rem}
+details[open] summary::after{content:"−"}
+details h3{margin:0;font-size:1rem}
+details>div{padding:0 0 14px;color:var(--mut)}
+details>div p{margin:0 0 10px}
+.guide>h2{margin-top:0}
+.guide .lead{color:var(--mut)}
+.sr{position:absolute;left:-9999px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Gerador de Prompt para Pixel Art Grátis</h1>
+<p>Como criar assets 2D com inteligência artificial: escolha as opções e receba um prompt em inglês pronto para Midjourney, DALL·E e Stable Diffusion.</p>
+</header>
+
+<main>
+<section class="panel grid" aria-label="Opções do prompt" id="opts"></section>
+
+<section class="panel out" aria-label="Resultado do prompt gerado">
+<h2 class="sr">Prompt gerado</h2>
+<legend style="display:block">Seu prompt</legend>
+<textarea id="result" aria-label="Prompt gerado para pixel art" spellcheck="false"></textarea>
+<button class="btn big" id="copy" aria-label="Copiar prompt gerado">📋 Copiar Prompt</button>
+</section>
+
+<section class="panel support" aria-labelledby="apoio">
+<h2 id="apoio">Gostou da ferramenta?</h2>
+<p>Ajude a manter este projeto gratuito e apoie um jovem desenvolvedor independente fazendo qualquer contribuição via PIX.</p>
+<div class="pixcol">
+<div class="qr" role="img" aria-label="QR Code PIX para doação ao desenvolvedor"><svg viewBox="0 0 45 45" shape-rendering="crispEdges" aria-hidden="true"><rect width="45" height="45" fill="#fff"/><path d="M2,2H3V3H2zM3,2H4V3H3zM4,2H5V3H4zM5,2H6V3H5zM6,2H7V3H6zM7,2H8V3H7zM8,2H9V3H8zM14,2H15V3H14zM16,2H17V3H16zM18,2H19V3H18zM19,2H20V3H19zM21,2H22V3H21zM23,2H24V3H23zM24,2H25V3H24zM25,2H26V3H25zM26,2H27V3H26zM28,2H29V3H28zM29,2H30V3H29zM32,2H33V3H32zM33,2H34V3H33zM34,2H35V3H34zM36,2H37V3H36zM37,2H38V3H37zM38,2H39V3H38zM39,2H40V3H39zM40,2H41V3H40zM41,2H42V3H41zM42,2H43V3H42zM2,3H3V4H2zM8,3H9V4H8zM10,3H11V4H10zM12,3H13V4H12zM14,3H15V4H14zM18,3H19V4H18zM19,3H20V4H19zM20,3H21V4H20zM22,3H23V4H22zM24,3H25V4H24zM25,3H26V4H25zM26,3H27V4H26zM27,3H28V4H27zM28,3H29V4H28zM31,3H32V4H31zM36,3H37V4H36zM42,3H43V4H42zM2,4H3V5H2zM4,4H5V5H4zM5,4H6V5H5zM6,4H7V5H6zM8,4H9V5H8zM10,4H11V5H10zM11,4H12V5H11zM12,4H13V5H12zM14,4H15V5H14zM18,4H19V5H18zM20,4H21V5H20zM21,4H22V5H21zM22,4H23V5H22zM23,4H24V5H23zM25,4H26V5H25zM26,4H27V5H26zM27,4H28V5H27zM30,4H31V5H30zM31,4H32V5H31zM32,4H33V5H32zM36,4H37V5H36zM38,4H39V5H38zM39,4H40V5H39zM40,4H41V5H40zM42,4H43V5H42zM2,5H3V6H2zM4,5H5V6H4zM5,5H6V6H5zM6,5H7V6H6zM8,5H9V6H8zM10,5H11V6H10zM11,5H12V6H11zM15,5H16V6H15zM16,5H17V6H16zM18,5H19V6H18zM20,5H21V6H20zM21,5H22V6H21zM22,5H23V6H22zM25,5H26V6H25zM26,5H27V6H26zM29,5H30V6H29zM30,5H31V6H30zM31,5H32V6H31zM32,5H33V6H32zM34,5H35V6H34zM36,5H37V6H36zM38,5H39V6H38zM39,5H40V6H39zM40,5H41V6H40zM42,5H43V6H42zM2,6H3V7H2zM4,6H5V7H4zM5,6H6V7H5zM6,6H7V7H6zM8,6H9V7H8zM11,6H12V7H11zM13,6H14V7H13zM14,6H15V7H14zM16,6H17V7H16zM18,6H19V7H18zM20,6H21V7H20zM22,6H23V7H22zM25,6H26V7H25zM27,6H28V7H27zM29,6H30V7H29zM30,6H31V7H30zM32,6H33V7H32zM36,6H37V7H36zM38,6H39V7H38zM39,6H40V7H39zM40,6H41V7H40zM42,6H43V7H42zM2,7H3V8H2zM8,7H9V8H8zM12,7H13V8H12zM13,7H14V8H13zM16,7H17V8H16zM18,7H19V8H18zM25,7H26V8H25zM26,7H27V8H26zM27,7H28V8H27zM28,7H29V8H28zM32,7H33V8H32zM36,7H37V8H36zM42,7H43V8H42zM2,8H3V9H2zM3,8H4V9H3zM4,8H5V9H4zM5,8H6V9H5zM6,8H7V9H6zM7,8H8V9H7zM8,8H9V9H8zM10,8H11V9H10zM12,8H13V9H12zM14,8H15V9H14zM16,8H17V9H16zM18,8H19V9H18zM20,8H21V9H20zM22,8H23V9H22zM24,8H25V9H24zM26,8H27V9H26zM28,8H29V9H28zM30,8H31V9H30zM32,8H33V9H32zM34,8H35V9H34zM36,8H37V9H36zM37,8H38V9H37zM38,8H39V9H38zM39,8H40V9H39zM40,8H41V9H40zM41,8H42V9H41zM42,8H43V9H42zM10,9H11V10H10zM11,9H12V10H11zM12,9H13V10H12zM13,9H14V10H13zM15,9H16V10H15zM16,9H17V10H16zM20,9H21V10H20zM21,9H22V10H21zM22,9H23V10H22zM24,9H25V10H24zM25,9H26V10H25zM27,9H28V10H27zM28,9H29V10H28zM30,9H31V10H30zM31,9H32V10H31zM32,9H33V10H32zM33,9H34V10H33zM34,9H35V10H34zM2,10H3V11H2zM8,10H9V11H8zM10,10H11V11H10zM11,10H12V11H11zM12,10H13V11H12zM14,10H15V11H14zM17,10H18V11H17zM18,10H19V11H18zM19,10H20V11H19zM20,10H21V11H20zM24,10H25V11H24zM26,10H27V11H26zM28,10H29V11H28zM35,10H36V11H35zM36,10H37V11H36zM39,10H40V11H39zM40,10H41V11H40zM41,10H42V11H41zM4,11H5V12H4zM5,11H6V12H5zM7,11H8V12H7zM11,11H12V12H11zM12,11H13V12H12zM14,11H15V12H14zM15,11H16V12H15zM17,11H18V12H17zM18,11H19V12H18zM19,11H20V12H19zM20,11H21V12H20zM22,11H23V12H22zM24,11H25V12H24zM25,11H26V12H25zM29,11H30V12H29zM30,11H31V12H30zM31,11H32V12H31zM32,11H33V12H32zM34,11H35V12H34zM36,11H37V12H36zM38,11H39V12H38zM40,11H41V12H40zM42,11H43V12H42zM2,12H3V13H2zM3,12H4V13H3zM5,12H6V13H5zM8,12H9V13H8zM9,12H10V13H9zM10,12H11V13H10zM11,12H12V13H11zM13,12H14V13H13zM16,12H17V13H16zM17,12H18V13H17zM18,12H19V13H18zM21,12H22V13H21zM24,12H25V13H24zM27,12H28V13H27zM28,12H29V13H28zM36,12H37V13H36zM41,12H42V13H41zM2,13H3V14H2zM4,13H5V14H4zM5,13H6V14H5zM9,13H10V14H9zM14,13H15V14H14zM16,13H17V14H16zM18,13H19V14H18zM20,13H21V14H20zM21,13H22V14H21zM22,13H23V14H22zM23,13H24V14H23zM25,13H26V14H25zM26,13H27V14H26zM31,13H32V14H31zM32,13H33V14H32zM38,13H39V14H38zM41,13H42V14H41zM8,14H9V15H8zM10,14H11V15H10zM13,14H14V15H13zM14,14H15V15H14zM18,14H19V15H18zM22,14H23V15H22zM23,14H24V15H23zM26,14H27V15H26zM30,14H31V15H30zM32,14H33V15H32zM33,14H34V15H33zM37,14H38V15H37zM38,14H39V15H38zM39,14H40V15H39zM40,14H41V15H40zM41,14H42V15H41zM2,15H3V16H2zM4,15H5V16H4zM5,15H6V16H5zM7,15H8V16H7zM10,15H11V16H10zM15,15H16V16H15zM20,15H21V16H20zM30,15H31V16H30zM32,15H33V16H32zM33,15H34V16H33zM35,15H36V16H35zM36,15H37V16H36zM37,15H38V16H37zM38,15H39V16H38zM39,15H40V16H39zM42,15H43V16H42zM3,16H4V17H3zM5,16H6V17H5zM6,16H7V17H6zM7,16H8V17H7zM8,16H9V17H8zM9,16H10V17H9zM13,16H14V17H13zM15,16H16V17H15zM16,16H17V17H16zM17,16H18V17H17zM19,16H20V17H19zM21,16H22V17H21zM23,16H24V17H23zM26,16H27V17H26zM28,16H29V17H28zM29,16H30V17H29zM32,16H33V17H32zM33,16H34V17H33zM34,16H35V17H34zM35,16H36V17H35zM38,16H39V17H38zM39,16H40V17H39zM40,16H41V17H40zM41,16H42V17H41zM3,17H4V18H3zM4,17H5V18H4zM5,17H6V18H5zM6,17H7V18H6zM7,17H8V18H7zM11,17H12V18H11zM13,17H14V18H13zM15,17H16V18H15zM17,17H18V18H17zM20,17H21V18H20zM21,17H22V18H21zM22,17H23V18H22zM26,17H27V18H26zM28,17H29V18H28zM32,17H33V18H32zM34,17H35V18H34zM35,17H36V18H35zM37,17H38V18H37zM40,17H41V18H40zM42,17H43V18H42zM2,18H3V19H2zM3,18H4V19H3zM4,18H5V19H4zM6,18H7V19H6zM8,18H9V19H8zM13,18H14V19H13zM14,18H15V19H14zM15,18H16V19H15zM16,18H17V19H16zM17,18H18V19H17zM18,18H19V19H18zM24,18H25V19H24zM28,18H29V19H28zM29,18H30V19H29zM32,18H33V19H32zM35,18H36V19H35zM38,18H39V19H38zM40,18H41V19H40zM42,18H43V19H42zM2,19H3V20H2zM3,19H4V20H3zM4,19H5V20H4zM11,19H12V20H11zM12,19H13V20H12zM14,19H15V20H14zM15,19H16V20H15zM16,19H17V20H16zM19,19H20V20H19zM20,19H21V20H20zM21,19H22V20H21zM22,19H23V20H22zM24,19H25V20H24zM25,19H26V20H25zM26,19H27V20H26zM31,19H32V20H31zM33,19H34V20H33zM34,19H35V20H34zM37,19H38V20H37zM38,19H39V20H38zM39,19H40V20H39zM40,19H41V20H40zM42,19H43V20H42zM4,20H5V21H4zM5,20H6V21H5zM8,20H9V21H8zM9,20H10V21H9zM12,20H13V21H12zM14,20H15V21H14zM16,20H17V21H16zM21,20H22V21H21zM23,20H24V21H23zM25,20H26V21H25zM26,20H27V21H26zM29,20H30V21H29zM31,20H32V21H31zM33,20H34V21H33zM34,20H35V21H34zM36,20H37V21H36zM37,20H38V21H37zM38,20H39V21H38zM39,20H40V21H39zM40,20H41V21H40zM42,20H43V21H42zM4,21H5V22H4zM7,21H8V22H7zM9,21H10V22H9zM10,21H11V22H10zM14,21H15V22H14zM15,21H16V22H15zM17,21H18V22H17zM19,21H20V22H19zM20,21H21V22H20zM21,21H22V22H21zM28,21H29V22H28zM29,21H30V22H29zM31,21H32V22H31zM33,21H34V22H33zM34,21H35V22H34zM35,21H36V22H35zM38,21H39V22H38zM39,21H40V22H39zM42,21H43V22H42zM2,22H3V23H2zM4,22H5V23H4zM8,22H9V23H8zM9,22H10V23H9zM13,22H14V23H13zM16,22H17V23H16zM17,22H18V23H17zM21,22H22V23H21zM23,22H24V23H23zM26,22H27V23H26zM35,22H36V23H35zM36,22H37V23H36zM38,22H39V23H38zM5,23H6V24H5zM7,23H8V24H7zM14,23H15V24H14zM15,23H16V24H15zM16,23H17V24H16zM19,23H20V24H19zM20,23H21V24H20zM22,23H23V24H22zM24,23H25V24H24zM25,23H26V24H25zM27,23H28V24H27zM28,23H29V24H28zM29,23H30V24H29zM30,23H31V24H30zM32,23H33V24H32zM37,23H38V24H37zM38,23H39V24H38zM39,23H40V24H39zM40,23H41V24H40zM42,23H43V24H42zM3,24H4V25H3zM4,24H5V25H4zM7,24H8V25H7zM8,24H9V25H8zM12,24H13V25H12zM14,24H15V25H14zM15,24H16V25H15zM17,24H18V25H17zM21,24H22V25H21zM23,24H24V25H23zM25,24H26V25H25zM26,24H27V25H26zM27,24H28V25H27zM33,24H34V25H33zM35,24H36V25H35zM36,24H37V25H36zM38,24H39V25H38zM41,24H42V25H41zM42,24H43V25H42zM3,25H4V26H3zM4,25H5V26H4zM5,25H6V26H5zM6,25H7V26H6zM10,25H11V26H10zM11,25H12V26H11zM13,25H14V26H13zM14,25H15V26H14zM18,25H19V26H18zM19,25H20V26H19zM20,25H21V26H20zM21,25H22V26H21zM22,25H23V26H22zM25,25H26V26H25zM28,25H29V26H28zM30,25H31V26H30zM34,25H35V26H34zM36,25H37V26H36zM38,25H39V26H38zM39,25H40V26H39zM2,26H3V27H2zM3,26H4V27H3zM5,26H6V27H5zM8,26H9V27H8zM11,26H12V27H11zM12,26H13V27H12zM14,26H15V27H14zM15,26H16V27H15zM18,26H19V27H18zM19,26H20V27H19zM21,26H22V27H21zM22,26H23V27H22zM23,26H24V27H23zM24,26H25V27H24zM25,26H26V27H25zM27,26H28V27H27zM30,26H31V27H30zM31,26H32V27H31zM32,26H33V27H32zM34,26H35V27H34zM37,26H38V27H37zM39,26H40V27H39zM40,26H41V27H40zM41,26H42V27H41zM42,26H43V27H42zM2,27H3V28H2zM5,27H6V28H5zM6,27H7V28H6zM9,27H10V28H9zM12,27H13V28H12zM13,27H14V28H13zM15,27H16V28H15zM20,27H21V28H20zM25,27H26V28H25zM28,27H29V28H28zM29,27H30V28H29zM32,27H33V28H32zM36,27H37V28H36zM37,27H38V28H37zM38,27H39V28H38zM42,27H43V28H42zM2,28H3V29H2zM3,28H4V29H3zM5,28H6V29H5zM6,28H7V29H6zM8,28H9V29H8zM9,28H10V29H9zM10,28H11V29H10zM11,28H12V29H11zM13,28H14V29H13zM15,28H16V29H15zM16,28H17V29H16zM18,28H19V29H18zM19,28H20V29H19zM21,28H22V29H21zM23,28H24V29H23zM24,28H25V29H24zM28,28H29V29H28zM29,28H30V29H29zM30,28H31V29H30zM34,28H35V29H34zM38,28H39V29H38zM42,28H43V29H42zM5,29H6V30H5zM6,29H7V30H6zM7,29H8V30H7zM9,29H10V30H9zM10,29H11V30H10zM11,29H12V30H11zM12,29H13V30H12zM13,29H14V30H13zM14,29H15V30H14zM17,29H18V30H17zM18,29H19V30H18zM20,29H21V30H20zM21,29H22V30H21zM23,29H24V30H23zM25,29H26V30H25zM27,29H28V30H27zM29,29H30V30H29zM31,29H32V30H31zM34,29H35V30H34zM37,29H38V30H37zM40,29H41V30H40zM42,29H43V30H42zM4,30H5V31H4zM7,30H8V31H7zM8,30H9V31H8zM10,30H11V31H10zM11,30H12V31H11zM12,30H13V31H12zM13,30H14V31H13zM15,30H16V31H15zM18,30H19V31H18zM25,30H26V31H25zM26,30H27V31H26zM27,30H28V31H27zM29,30H30V31H29zM30,30H31V31H30zM31,30H32V31H31zM32,30H33V31H32zM33,30H34V31H33zM34,30H35V31H34zM35,30H36V31H35zM36,30H37V31H36zM2,31H3V32H2zM3,31H4V32H3zM4,31H5V32H4zM5,31H6V32H5zM7,31H8V32H7zM9,31H10V32H9zM12,31H13V32H12zM14,31H15V32H14zM15,31H16V32H15zM16,31H17V32H16zM17,31H18V32H17zM20,31H21V32H20zM21,31H22V32H21zM23,31H24V32H23zM25,31H26V32H25zM29,31H30V32H29zM31,31H32V32H31zM32,31H33V32H32zM38,31H39V32H38zM39,31H40V32H39zM2,32H3V33H2zM3,32H4V33H3zM7,32H8V33H7zM8,32H9V33H8zM9,32H10V33H9zM10,32H11V33H10zM11,32H12V33H11zM13,32H14V33H13zM15,32H16V33H15zM17,32H18V33H17zM19,32H20V33H19zM20,32H21V33H20zM21,32H22V33H21zM22,32H23V33H22zM23,32H24V33H23zM26,32H27V33H26zM28,32H29V33H28zM30,32H31V33H30zM32,32H33V33H32zM35,32H36V33H35zM36,32H37V33H36zM39,32H40V33H39zM41,32H42V33H41zM42,32H43V33H42zM2,33H3V34H2zM5,33H6V34H5zM6,33H7V34H6zM7,33H8V34H7zM10,33H11V34H10zM11,33H12V34H11zM14,33H15V34H14zM16,33H17V34H16zM20,33H21V34H20zM22,33H23V34H22zM25,33H26V34H25zM28,33H29V34H28zM31,33H32V34H31zM32,33H33V34H32zM33,33H34V34H33zM37,33H38V34H37zM38,33H39V34H38zM41,33H42V34H41zM42,33H43V34H42zM2,34H3V35H2zM4,34H5V35H4zM6,34H7V35H6zM7,34H8V35H7zM8,34H9V35H8zM10,34H11V35H10zM11,34H12V35H11zM12,34H13V35H12zM15,34H16V35H15zM16,34H17V35H16zM21,34H22V35H21zM22,34H23V35H22zM24,34H25V35H24zM25,34H26V35H25zM27,34H28V35H27zM29,34H30V35H29zM30,34H31V35H30zM32,34H33V35H32zM33,34H34V35H33zM34,34H35V35H34zM35,34H36V35H35zM36,34H37V35H36zM37,34H38V35H37zM38,34H39V35H38zM40,34H41V35H40zM10,35H11V36H10zM11,35H12V36H11zM13,35H14V36H13zM14,35H15V36H14zM16,35H17V36H16zM17,35H18V36H17zM18,35H19V36H18zM20,35H21V36H20zM21,35H22V36H21zM22,35H23V36H22zM26,35H27V36H26zM27,35H28V36H27zM28,35H29V36H28zM29,35H30V36H29zM32,35H33V36H32zM34,35H35V36H34zM38,35H39V36H38zM39,35H40V36H39zM42,35H43V36H42zM2,36H3V37H2zM3,36H4V37H3zM4,36H5V37H4zM5,36H6V37H5zM6,36H7V37H6zM7,36H8V37H7zM8,36H9V37H8zM12,36H13V37H12zM13,36H14V37H13zM14,36H15V37H14zM15,36H16V37H15zM17,36H18V37H17zM18,36H19V37H18zM20,36H21V37H20zM21,36H22V37H21zM22,36H23V37H22zM26,36H27V37H26zM31,36H32V37H31zM32,36H33V37H32zM33,36H34V37H33zM34,36H35V37H34zM36,36H37V37H36zM38,36H39V37H38zM42,36H43V37H42zM2,37H3V38H2zM8,37H9V38H8zM11,37H12V38H11zM12,37H13V38H12zM13,37H14V38H13zM14,37H15V38H14zM16,37H17V38H16zM18,37H19V38H18zM21,37H22V38H21zM22,37H23V38H22zM27,37H28V38H27zM30,37H31V38H30zM31,37H32V38H31zM34,37H35V38H34zM38,37H39V38H38zM40,37H41V38H40zM2,38H3V39H2zM4,38H5V39H4zM5,38H6V39H5zM6,38H7V39H6zM8,38H9V39H8zM11,38H12V39H11zM19,38H20V39H19zM20,38H21V39H20zM21,38H22V39H21zM22,38H23V39H22zM23,38H24V39H23zM24,38H25V39H24zM25,38H26V39H25zM26,38H27V39H26zM28,38H29V39H28zM29,38H30V39H29zM30,38H31V39H30zM33,38H34V39H33zM34,38H35V39H34zM35,38H36V39H35zM36,38H37V39H36zM37,38H38V39H37zM38,38H39V39H38zM39,38H40V39H39zM2,39H3V40H2zM4,39H5V40H4zM5,39H6V40H5zM6,39H7V40H6zM8,39H9V40H8zM11,39H12V40H11zM14,39H15V40H14zM15,39H16V40H15zM16,39H17V40H16zM17,39H18V40H17zM18,39H19V40H18zM19,39H20V40H19zM21,39H22V40H21zM22,39H23V40H22zM26,39H27V40H26zM32,39H33V40H32zM34,39H35V40H34zM35,39H36V40H35zM36,39H37V40H36zM38,39H39V40H38zM41,39H42V40H41zM2,40H3V41H2zM4,40H5V41H4zM5,40H6V41H5zM6,40H7V41H6zM8,40H9V41H8zM11,40H12V41H11zM12,40H13V41H12zM14,40H15V41H14zM18,40H19V41H18zM23,40H24V41H23zM24,40H25V41H24zM35,40H36V41H35zM36,40H37V41H36zM38,40H39V41H38zM39,40H40V41H39zM40,40H41V41H40zM41,40H42V41H41zM2,41H3V42H2zM8,41H9V42H8zM11,41H12V42H11zM12,41H13V42H12zM13,41H14V42H13zM14,41H15V42H14zM17,41H18V42H17zM19,41H20V42H19zM20,41H21V42H20zM21,41H22V42H21zM24,41H25V42H24zM25,41H26V42H25zM29,41H30V42H29zM34,41H35V42H34zM35,41H36V42H35zM38,41H39V42H38zM2,42H3V43H2zM3,42H4V43H3zM4,42H5V43H4zM5,42H6V43H5zM6,42H7V43H6zM7,42H8V43H7zM8,42H9V43H8zM10,42H11V43H10zM19,42H20V43H19zM20,42H21V43H20zM23,42H24V43H23zM24,42H25V43H24zM27,42H28V43H27zM29,42H30V43H29zM30,42H31V43H30zM31,42H32V43H31zM34,42H35V43H34zM35,42H36V43H35zM37,42H38V43H37zM38,42H39V43H38zM41,42H42V43H41z" fill="#000"/></svg></div>
+<p class="pixmsg">Para quem quiser doar por meio da chave física, copie e cole a chave que está logo abaixo do QR Code.</p>
+<div class="keybox">
+<span class="key" id="pixkey">7ff3919b-df0e-4eb3-8776-342c28abec78</span>
+<button class="btn sm" id="copykey" aria-label="Copiar chave PIX">Copiar Chave</button>
+</div>
+</div>
+</section>
+
+<article class="panel guide" aria-labelledby="guia" style="margin-top:24px">
+<h2 id="guia">Guia: como criar assets 2D e pixel art com IA</h2>
+<p class="lead">Respostas rápidas para desenvolvedores indie e artistas que querem gerar sprites, tilesets e backgrounds com inteligência artificial.</p>
+
+<details open><summary><h3>Quais são os melhores parâmetros para gerar pixel art no Midjourney v6?</h3></summary><div>
+<p>No Midjourney v6, comece com <code>--v 6</code> e use <code>--style raw</code> para reduzir o excesso de embelezamento e obter pixels mais limpos.</p>
+<p>Ajuste a proporção ao asset: <code>--ar 1:1</code> para ícones e sprites, <code>--ar 16:9</code> para backgrounds e <code>--ar 3:2</code> para tilesets.</p>
+<p>Inclua no prompt termos como <em>pixel art, crisp pixels, no anti-aliasing, limited color palette, flat shading</em>. Evite palavras como "realistic" ou "3D render".</p>
+</div></details>
+
+<details><summary><h3>Como estruturar prompts para tilesets e spritesheets 2D?</h3></summary><div>
+<p>Use uma ordem fixa: <strong>estilo → tipo de asset → vista → paleta → fundo → restrições técnicas</strong>. É exatamente a ordem que este gerador segue.</p>
+<p>Para spritesheets, peça <em>sprite sheet, grid layout, consistent character, idle and walk cycle, side view</em>. Para tilesets, use <em>seamless, modular tiles, top-down view, tileable</em>.</p>
+<p>Peça fundo sólido ou transparente para facilitar a remoção e o recorte no editor.</p>
+</div></details>
+
+<details><summary><h3>Dicas para manter a consistência de cores em jogos indie</h3></summary><div>
+<p>Defina uma paleta fixa de 16 a 32 cores e repita a descrição dela em todos os prompts.</p>
+<p>Reutilize a mesma seed e o mesmo estilo-base entre gerações. Depois, padronize as cores em editores como Aseprite ou usando paletas do Lospec antes de importar na engine.</p>
+<p>Para um visual retrô autêntico, a paleta Game Boy de 4 tons é uma ótima restrição.</p>
+</div></details>
+
+<details><summary><h3>O que é este gerador de prompt para pixel art?</h3></summary><div>
+<p>É uma ferramenta gratuita que monta prompts em inglês otimizados para IAs de imagem, voltados a pixel art e assets de jogos 2D.</p>
+</div></details>
+
+<details><summary><h3>Como usar os prompts gerados em IAs de imagem?</h3></summary><div>
+<p>Clique em "Copiar Prompt" e cole no Midjourney, DALL·E, Leonardo ou Stable Diffusion. Gere variações, ajuste as opções e refine até obter o asset ideal.</p>
+</div></details>
+</article>
+</main>
+
+<footer>© <span id="yr"></span> Gerador de Prompt para Pixel Art · Ferramenta gratuita para devs</footer>
+</div>
+
+<script>
+// Configure aqui sua chave PIX:
+const PIX_KEY = "7ff3919b-df0e-4eb3-8776-342c28abec78";
+
+const groups = [
+ {id:"style",label:"Estilo Visual",opts:[
+  ["8-bit Retro","8-bit retro pixel art style, NES era"],
+  ["16-bit SNES","16-bit SNES style pixel art, rich shading"],
+  ["Cyberpunk 2D","cyberpunk 2D pixel art, neon lights, futuristic city vibe"],
+  ["Fantasia Medieval","medieval fantasy pixel art style"],
+  ["Minimalista","minimalist pixel art, clean simple shapes"]]},
+ {id:"asset",label:"Tipo de Asset",opts:[
+  ["Spritesheet de Personagem","character sprite sheet, multiple animation frames, idle and walk cycle, consistent grid"],
+  ["Tileset de Cenário/Floresta","seamless forest environment tileset, grass, trees, rocks, modular tiles"],
+  ["Ícone de Item/Poção","game item icon, potion bottle, centered, inventory icon"],
+  ["Fundo/Background Parallax","parallax game background, layered depth, wide scrolling landscape"]]},
+ {id:"palette",label:"Paleta de Cores",opts:[
+  ["Cores vibrantes neon","vibrant neon color palette"],
+  ["Tons pastéis","soft pastel color palette"],
+  ["Monocromático","monochromatic color palette"],
+  ["Paleta Game Boy clássica","classic Game Boy 4-shade green palette"]]},
+ {id:"extra",label:"Detalhes Extras / Ação",opts:[
+  ["Visão lateral","side view"],
+  ["Vista top-down","top-down view"],
+  ["Fundo transparente sólido","solid transparent background, isolated on plain background"],
+  ["Pronto para animação","animation-ready, clean separated parts"]],multi:true}
+];
+const sel={style:new Set([0]),asset:new Set([0]),palette:new Set([0]),extra:new Set([0,2])};
+const box=document.getElementById("opts"), result=document.getElementById("result");
+let edited=false;
+
+groups.forEach(g=>{
+  const f=document.createElement("fieldset");
+  f.setAttribute("aria-label",g.label);f.innerHTML=`<legend>${g.label}${g.multi?" (múltipla)":""}</legend><div class="chips"></div>`;
+  const c=f.querySelector(".chips");
+  g.opts.forEach((o,i)=>{
+    const b=document.createElement("button");
+    b.type="button";b.className="chip";b.textContent=o[0];
+    b.setAttribute("aria-pressed",sel[g.id].has(i));
+    b.onclick=()=>{
+      const s=sel[g.id];
+      if(g.multi){s.has(i)?s.delete(i):s.add(i)}
+      else{s.has(i)?s.clear():(s.clear(),s.add(i))}
+      c.querySelectorAll(".chip").forEach((x,k)=>x.setAttribute("aria-pressed",s.has(k)));
+      build();
+    };
+    c.appendChild(b);
+  });
+  box.appendChild(f);
+});
+
+function build(){
+  const parts=[];
+  groups.forEach(g=>[...sel[g.id]].sort().forEach(i=>parts.push(g.opts[i][1])));
+  parts.push("crisp pixels, no anti-aliasing, high quality, game-ready asset");
+  result.value=parts.join(", ");
+}
+build();
+
+async function copy(text,btn,label){
+  try{await navigator.clipboard.writeText(text)}
+  catch(e){const t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove()}
+  const old=btn.textContent;btn.textContent=label;btn.classList.add("ok");
+  setTimeout(()=>{btn.textContent=old;btn.classList.remove("ok")},1800);
+}
+document.getElementById("copy").onclick=e=>copy(result.value,e.currentTarget,"✅ Copiado!");
+document.getElementById("copykey").onclick=e=>copy(PIX_KEY,e.currentTarget,"Copiado!");
+document.getElementById("yr").textContent=new Date().getFullYear();
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://geradorprompts-pixel-art.netlify.app/sitemap.xml
